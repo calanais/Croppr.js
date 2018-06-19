@@ -549,6 +549,7 @@ var CropprCore = function () {
         var _this = this;
         var deferred = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
         classCallCheck(this, CropprCore);
+        console.log('mbw version');
         this.options = CropprCore.parseOptions(options || {});
         if (!element.nodeName) {
             element = document.querySelector(element);
@@ -556,15 +557,11 @@ var CropprCore = function () {
                 throw 'Unable to find element.';
             }
         }
-        if (!element.getAttribute('src')) {
-            throw 'Image src not provided.';
-        }
         this._initialized = false;
         this._restore = {
             parent: element.parentNode,
             element: element
-        };
-        if (!deferred) {
+        };if (!deferred) {
             if (element.width === 0 || element.height === 0) {
                 element.onload = function () {
                     _this.initialize(element);
@@ -599,7 +596,9 @@ var CropprCore = function () {
             this.cropperEl = document.createElement('div');
             this.cropperEl.className = 'croppr';
             this.imageEl = document.createElement('img');
-            this.imageEl.setAttribute('src', targetEl.getAttribute('src'));
+            this.extra = document.createElement('img');
+            this.extra.setAttribute('src', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAADElEQVQImWNgoBMAAABpAAFEI8ARAAAAAElFTkSuQmCC'                                 );
+            this.imageEl.setAttribute('src', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAADElEQVQImWNgoBMAAABpAAFEI8ARAAAAAElFTkSuQmCC'                                 );
             this.imageEl.setAttribute('alt', targetEl.getAttribute('alt'));
             this.imageEl.className = 'croppr-image';
             this.imageClippedEl = this.imageEl.cloneNode();
@@ -622,6 +621,7 @@ var CropprCore = function () {
             this.cropperEl.appendChild(this.overlayEl);
             this.cropperEl.appendChild(handleContainerEl);
             this.containerEl.appendChild(this.cropperEl);
+            this.containerEl.appendChild(this.extra);
             targetEl.parentElement.replaceChild(this.containerEl, targetEl);
         }
     }, {
@@ -771,8 +771,8 @@ var CropprCore = function () {
                 _box$getAbsolutePoint2 = slicedToArray(_box$getAbsolutePoint, 2),
                 originX = _box$getAbsolutePoint2[0],
                 originY = _box$getAbsolutePoint2[1];
-            this.activeHandle = { handle: handle, originPoint: originPoint, originX: originX, originY: originY };
-            if (this.options.onCropStart !== null) {
+            this.activeHandle = { handle: handle, originPoint: originPoint, originX: originX, originY: originY
+            };if (this.options.onCropStart !== null) {
                 this.options.onCropStart(this.getValue());
             }
         }
@@ -871,8 +871,7 @@ var CropprCore = function () {
             this.currentMove = {
                 offsetX: mouseX - this.box.x1,
                 offsetY: mouseY - this.box.y1
-            };
-            if (this.options.onCropStart !== null) {
+            };if (this.options.onCropStart !== null) {
                 this.options.onCropStart(this.getValue());
             }
         }
@@ -962,8 +961,7 @@ var CropprCore = function () {
                 onCropStart: null,
                 onCropMove: null,
                 onCropEnd: null
-            };
-            var aspectRatio = null;
+            };var aspectRatio = null;
             if (opts.aspectRatio !== undefined) {
                 if (typeof opts.aspectRatio === 'number') {
                     aspectRatio = opts.aspectRatio;

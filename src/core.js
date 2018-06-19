@@ -33,7 +33,7 @@ const HANDLES = [
  */
 export default class CropprCore {
     constructor(element, options, deferred=false) {
-
+        console.log('mbw version');
         // Parse options
         this.options = CropprCore.parseOptions(options || {});
 
@@ -42,9 +42,9 @@ export default class CropprCore {
             element = document.querySelector(element);
             if (element == null) { throw 'Unable to find element.' }
         }
-        if (!element.getAttribute('src')) {
-            throw 'Image src not provided.'
-        }
+        // if (!element.getAttribute('src')) {
+        //     throw 'Image src not provided.'
+        // }
 
         // Define internal props
         this._initialized = false;
@@ -105,7 +105,10 @@ export default class CropprCore {
 
         // Create image element
         this.imageEl = document.createElement('img');
-        this.imageEl.setAttribute('src', targetEl.getAttribute('src'));
+        this.extra = document.createElement('img');
+
+        this.extra.setAttribute('src', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAADElEQVQImWNgoBMAAABpAAFEI8ARAAAAAElFTkSuQmCC'/*targetEl.getAttribute('src')*/);
+        this.imageEl.setAttribute('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAADElEQVQImWNgoBMAAABpAAFEI8ARAAAAAElFTkSuQmCC'/*targetEl.getAttribute('src')*/);
         this.imageEl.setAttribute('alt', targetEl.getAttribute('alt'));
         this.imageEl.className = 'croppr-image';
 
@@ -141,6 +144,7 @@ export default class CropprCore {
         this.cropperEl.appendChild(this.overlayEl);
         this.cropperEl.appendChild(handleContainerEl);
         this.containerEl.appendChild(this.cropperEl);
+        this.containerEl.appendChild(this.extra);
 
         // And then finally insert it into the document
         targetEl.parentElement.replaceChild(this.containerEl, targetEl);
